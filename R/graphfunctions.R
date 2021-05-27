@@ -147,8 +147,8 @@ setMethod("ugraph", "graph",
 
 setMethod("edgeMatrix", "graphAM",
           function(object, duplicates=FALSE) {
-              to <- apply(object@adjMat, 1, function(x) which(x != 0)) # vector
-              to <- lapply(to, force) # fixup to allow listLen to work
+              to <- apply(object@adjMat, 1, function(x) which(x != 0), simplify=FALSE) # list
+              stopifnot(is(to, "list"))
               from <- rep(seq_len(numNodes(object)), listLen(to))
               to <- unlist(to, use.names=FALSE)
               ans <- rbind(from=from, to=to)
